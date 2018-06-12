@@ -30,12 +30,6 @@
 
 [[projects]]
   branch = "master"
-  name = "github.com/beorn7/perks"
-  packages = ["quantile"]
-  revision = "3a771d992973f24aa725d07868b467d1ddfceafb"
-
-[[projects]]
-  branch = "master"
   name = "github.com/btcsuite/btcd"
   packages = ["btcec"]
   revision = "bc0944904505aab55e089371a892be2f87883161"
@@ -193,9 +187,6 @@
     "database/gorm",
     "database/mysql",
     "log",
-    "metrics",
-    "rpc",
-    "rpc/pb",
     "test"
   ]
   revision = "d65c366c4b8fffe22d9314ac931381644151f951"
@@ -216,11 +207,8 @@
   name = "github.com/gogo/protobuf"
   packages = [
     "gogoproto",
-    "jsonpb",
     "proto",
-    "protoc-gen-gogo/descriptor",
-    "sortkeys",
-    "types"
+    "protoc-gen-gogo/descriptor"
   ]
   revision = "1adfc126b41513cc696b209667c8656ea7aac67c"
   version = "v1.0.0"
@@ -245,12 +233,6 @@
   name = "github.com/golang/snappy"
   packages = ["."]
   revision = "2e65f85255dbc3072edf28d6b5b8efc472979f5a"
-
-[[projects]]
-  branch = "master"
-  name = "github.com/grpc-ecosystem/go-grpc-prometheus"
-  packages = ["."]
-  revision = "39de4380c2e0353a115b80b1c730719c79bfb771"
 
 [[projects]]
   branch = "master"
@@ -351,12 +333,6 @@
   version = "v0.0.3"
 
 [[projects]]
-  name = "github.com/matttproud/golang_protobuf_extensions"
-  packages = ["pbutil"]
-  revision = "c12348ce28de40eed0136aa2b644d0ee0650e56c"
-  version = "v1.0.1"
-
-[[projects]]
   branch = "master"
   name = "github.com/mitchellh/mapstructure"
   packages = ["."]
@@ -367,7 +343,6 @@
   packages = [
     ".",
     "config",
-    "extensions/table",
     "internal/codelocation",
     "internal/containernode",
     "internal/failer",
@@ -454,42 +429,6 @@
   packages = ["difflib"]
   revision = "792786c7400a136282c1664665ae0a8db921c6c2"
   version = "v1.0.0"
-
-[[projects]]
-  branch = "master"
-  name = "github.com/prometheus/client_golang"
-  packages = [
-    "prometheus",
-    "prometheus/promhttp"
-  ]
-  revision = "42bc0a18c2207d46ac4039bbb6b4cf1507872837"
-
-[[projects]]
-  branch = "master"
-  name = "github.com/prometheus/client_model"
-  packages = ["go"]
-  revision = "99fa1f4be8e564e8a6b613da7fa6f46c9edafc6c"
-
-[[projects]]
-  branch = "master"
-  name = "github.com/prometheus/common"
-  packages = [
-    "expfmt",
-    "internal/bitbucket.org/ww/goautoneg",
-    "model"
-  ]
-  revision = "7600349dcfe1abd18d72d3a1770870d9800a7801"
-
-[[projects]]
-  branch = "master"
-  name = "github.com/prometheus/procfs"
-  packages = [
-    ".",
-    "internal/util",
-    "nfs",
-    "xfs"
-  ]
-  revision = "fe93d378a6b03758a2c1b65e86cf630bf78681c0"
 
 [[projects]]
   name = "github.com/prometheus/prometheus"
@@ -605,12 +544,6 @@
     "leveldb/util"
   ]
   revision = "5d6fca44a948d2be89a9702de7717f0168403d3d"
-
-[[projects]]
-  name = "github.com/urfave/negroni"
-  packages = ["."]
-  revision = "5dbbc83f748fc3ad38585842b0aedab546d0ea1e"
-  version = "v0.3.0"
 
 [[projects]]
   branch = "master"
@@ -786,6 +719,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "c9b3abaeafa7c680827eb35529ddf8cb8efbe1d79829ef68d7b0243887973835"
+  inputs-digest = "30353153d0bc26e17db66f3de55d0dd885c8ca23cd16b2d056a785b9476b1a66"
   solver-name = "gps-cdcl"
   solver-version = 1
