@@ -18,20 +18,28 @@ package erc20
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"os"
+	"strconv"
 
-	"github.com/getamis/eth-indexer/cmd/flags"
 	"github.com/getamis/eth-indexer/service/pb"
+	"github.com/getamis/sirius/log"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 	"google.golang.org/grpc"
+)
+
+const (
+	cfgFileName string = "erc20"
+	cfgFileType string = "yaml"
+	cfgFilePath string = "./configs"
 )
 
 var (
 	host string
 	port int
-
-	address     string
-	blockNumber int
+	list map[string]interface{}
 )
 
 var AddCmd = &cobra.Command{
@@ -41,27 +49,47 @@ var AddCmd = &cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
 		conn, err := grpc.Dial(fmt.Sprintf("%s:%d", host, port), grpc.WithInsecure())
 		if err != nil {
+			log.Error("Failed to connect to gRPC", "err", err)
 			return err
 		}
-
 		client := pb.NewERC20ServiceClient(conn)
 		ctx := context.Background()
-		res, err := client.AddERC20(ctx, &pb.AddERC20Request{
-			Address:     address,
-			BlockNumber: int64(blockNumber),
-		})
-		if err != nil {
-			return err
+
+		for _, v := range list {
+			data, _ := json.Marshal(v)
+			result := make(map[string]string)
+			err := json.Unmarshal(data, &result)
+
+			address := result["address"]
+			block, _ := strconv.ParseInt(result["block"], 10, 64)
+
+			res, err := client.AddERC20(ctx, &pb.AddERC20Request{
+				Address:     address,
+				BlockNumber: int64(block),
+			})
+			if err != nil {
+				return err
+			}
+
+			fmt.Printf("ERC20 contract is added, address = %v, block number = %v, name = %v, decimals = %v, total supply = %v", res.Address, res.BlockNumber, res.Name, res.Decimals, res.TotalSupply)
+
 		}
-		fmt.Printf("ERC20 contract is added, address = %v, block number = %v, name = %v, decimals = %v, total supply = %v", res.Address, res.BlockNumber, res.Name, res.Decimals, res.TotalSupply)
+
 		return nil
 	},
 }
 
-func init() {
-	AddCmd.Flags().StringVar(&host, flags.Host, "", "The gRPC server listening host")
-	AddCmd.Flags().IntVar(&port, flags.Port, 5487, "The gRPC server listening port")
+func initConfig() {
+	viper.SetConfigType(cfgFileType)
+	viper.SetConfigName(cfgFileName)
+	viper.AddConfigPath(cfgFilePath)
+	if err := viper.ReadInConfig(); err != nil {
+		fmt.Println("Can't read config:", err)
+		os.Exit(1)
+	}
+	loadFlagToVar()
+}
 
-	AddCmd.Flags().StringVar(&address, "address", "", "ERC20 contract address")
-	AddCmd.Flags().IntVar(&blockNumber, "block-number", -1, "The block number which the ERC20 contract is deployed")
+func loadFlagToVar() {
+	list = viper.GetStringMap(cfgFileName)
 }
