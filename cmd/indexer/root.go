@@ -55,8 +55,9 @@ var (
 	dbPassword string
 
 	// flags for syncing
-	targetBlock int64
-	fromBlock   int64
+	targetBlock  int64
+	fromBlock    int64
+	onySubscribe bool
 
 	// flags for profiling
 	profiling  bool
@@ -99,7 +100,7 @@ var ServerCmd = &cobra.Command{
 			cancel()
 		}()
 
-		indexer := indexer.New(ethClient, store.NewManager(db))
+		indexer := indexer.New(ethClient, store.NewManager(db, onySubscribe))
 
 		if subscribeErc20token {
 			erc20Addresses, erc20BlockNumbers, err := LoadTokensFromConfig()
@@ -173,6 +174,7 @@ func init() {
 		// Syncing related flags
 		ServerCmd.Flags().Int64Var(&targetBlock, flags.SyncTargetBlock, 0, "The block number to sync to initially")
 		ServerCmd.Flags().Int64Var(&fromBlock, flags.SyncFromBlock, 0, "The init block number to sync to initially")
+		ServerCmd.Flags().BoolVar(&onySubscribe, flags.SyncOnlySubscribe, true, "Enable to only index subscribed accounts")
 
 		// Profling flags
 		ServerCmd.Flags().BoolVar(&profiling, flags.PprofEnable, false, "Enable the pprof HTTP server")

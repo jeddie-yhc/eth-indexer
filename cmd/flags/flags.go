@@ -39,6 +39,7 @@ const (
 	SyncTargetBlock      = "sync.targetBlock"
 	SyncGetMissingBlocks = "sync.getMissingBlocks"
 	SyncFromBlock        = "sync.fromBlock"
+	SyncOnlySubscribe    = "sync.onlySubscribe"
 
 	// flags for metrics
 	MetricsHost = "metrics.host"
